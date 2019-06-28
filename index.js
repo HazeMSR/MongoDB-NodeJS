@@ -33,6 +33,22 @@ plantillaSchema.methods.mostrarAtributos = function(){
     });
 }
 
+//Metodo que inserta una nueva Plantilla en la BD y lo muestra
+plantillaSchema.methods.insertarPlantilla = function(Plantilla, idM, nom, atr){
+    const auxPlantilla = new Plantilla ({
+        idMedico: idM,
+        nombre: nom,
+        atributos: atr 
+    });
+    auxPlantilla.save(function(err,result){
+        if (err) return console.error(err);
+        else{
+            console.log(result);
+            process.exit();
+        }
+    })
+}
+
 //Se crea un modelo vinculado al esquema de la plantilla 
 var Plantilla = mongoose.model('Plantilla', plantillaSchema);
 
@@ -56,6 +72,9 @@ nuevaPlantilla.save(function(err,nuevaPlantilla){
     //Y sale del proceso de Node.js 
     else{ 
         nuevaPlantilla.mostrarAtributos(); 
-        process.exit();
+//    process.exit();
     }
-})
+});
+
+//Ejecuta el metodo de insertar Plantilla
+nuevaPlantilla.insertarPlantilla(Plantilla,3,'nueva Plantilla3', [{nombre:'Consultorio',valor:'5'}]);
